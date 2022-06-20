@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class UserServices {
 
     private final UserRepositories userRepositories;
@@ -24,6 +24,7 @@ public class UserServices {
         return userRepositories.findAll();
     }
 
+    @Transactional
     public void createUser(User user){
         userRepositories.save(user);
     }
@@ -33,10 +34,12 @@ public class UserServices {
        return user.orElse(null);
     }
 
+    @Transactional
     public void updateUser(User user){
         userRepositories.save(user);
     }
 
+    @Transactional
     public void deleteUser(int id){
         userRepositories.deleteById(id);
     }
