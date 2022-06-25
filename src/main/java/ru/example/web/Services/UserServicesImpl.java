@@ -10,11 +10,11 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class UserServiceImpl implements UserService{
+public class UserServicesImpl implements UserServices {
 
     private final UserRepositories userRepositories;
 
-    public UserServiceImpl(UserRepositories userRepositories) {
+    public UserServicesImpl(UserRepositories userRepositories) {
         this.userRepositories = userRepositories;
     }
 

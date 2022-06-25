@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.example.web.Model.User;
-import ru.example.web.Services.UserService;
+import ru.example.web.Services.UserServices;
 
 import javax.validation.Valid;
 
@@ -13,16 +13,16 @@ import javax.validation.Valid;
 @RequestMapping
 public class UserController {
 
-    private final UserService userService;
+    private final UserServices userServices;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServices userServices) {
+        this.userServices = userServices;
     }
 
 
     @GetMapping
     private String index(Model model){
-        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("users", userServices.getAllUsers());
         return "user/index";
     }
 
@@ -38,7 +38,7 @@ public class UserController {
         if(bindingResult.hasErrors())
             return "user/new";
 
-        userService.createUser(user);
+        userServices.createUser(user);
         return "redirect:/";
     }
 
@@ -46,7 +46,7 @@ public class UserController {
     @GetMapping("/{id}")
     private String viewUser(@PathVariable int id, Model model){
 
-        model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("user", userServices.getUser(id));
         return "user/view";
     }
 
@@ -55,7 +55,7 @@ public class UserController {
                               BindingResult bindingResult){
 
         if(!bindingResult.hasErrors())
-            userService.updateUser(user);
+            userServices.updateUser(user);
 
         return "user/view";
     }
@@ -63,7 +63,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     private String deleteUser(@PathVariable int id){
 
-        userService.deleteUser(id);
+        userServices.deleteUser(id);
         return "redirect:/";
     }
 }
