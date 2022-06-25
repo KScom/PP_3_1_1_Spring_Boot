@@ -1,12 +1,11 @@
 package ru.example.web.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.example.web.Model.User;
-import ru.example.web.Services.UserServices;
+import ru.example.web.Services.UserService;
 
 import javax.validation.Valid;
 
@@ -14,16 +13,16 @@ import javax.validation.Valid;
 @RequestMapping
 public class UserController {
 
-    private final UserServices userServices;
+    private final UserService userService;
 
-    @Autowired
-    public UserController(UserServices userServices) {
-        this.userServices = userServices;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
+
 
     @GetMapping
     private String index(Model model){
-        model.addAttribute("users", userServices.getAllUsers());
+        model.addAttribute("users", userService.getAllUsers());
         return "user/index";
     }
 
@@ -36,9 +35,10 @@ public class UserController {
     private String createUser(@ModelAttribute("user") @Valid User user,
                               BindingResult bindingResult){
 
-        if(bindingResult.hasErrors()) return "user/new";
+        if(bindingResult.hasErrors())
+            return "user/new";
 
-        userServices.createUser(user);
+        userService.createUser(user);
         return "redirect:/";
     }
 
@@ -46,7 +46,7 @@ public class UserController {
     @GetMapping("/{id}")
     private String viewUser(@PathVariable int id, Model model){
 
-        model.addAttribute("user", userServices.getUser(id));
+        model.addAttribute("user", userService.getUser(id));
         return "user/view";
     }
 
@@ -55,7 +55,7 @@ public class UserController {
                               BindingResult bindingResult){
 
         if(!bindingResult.hasErrors())
-            userServices.updateUser(user);
+            userService.updateUser(user);
 
         return "user/view";
     }
@@ -63,7 +63,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     private String deleteUser(@PathVariable int id){
 
-        userServices.deleteUser(id);
+        userService.deleteUser(id);
         return "redirect:/";
     }
 }

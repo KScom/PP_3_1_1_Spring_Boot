@@ -1,6 +1,5 @@
 package ru.example.web.Services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.example.web.Model.User;
@@ -11,12 +10,11 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class UserServices {
+public class UserServiceImpl implements UserService{
 
     private final UserRepositories userRepositories;
 
-    @Autowired
-    public UserServices(UserRepositories userRepositories) {
+    public UserServiceImpl(UserRepositories userRepositories) {
         this.userRepositories = userRepositories;
     }
 
